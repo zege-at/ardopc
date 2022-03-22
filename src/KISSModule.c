@@ -21,7 +21,7 @@
 #include <windows.h>
 #include <winioctl.h>
 #else
-#define HANDLE int
+// #define HANDLE int
 #define SOCKET int
 #include <sys/types.h>
 #ifndef TEENSY
@@ -49,7 +49,7 @@ VOID ptkSessionBG();
 
 
 
-HANDLE hDevice;
+// HANDLE hDevice;
 
 char KISSPORTNAME[80] = "";  // for now just support over Host Interface;
 

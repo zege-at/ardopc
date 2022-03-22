@@ -56,7 +56,7 @@ int LogToHostBufferLen = 0;
 int bytDataToSendLength = 0;
 
 
-UCHAR bytDataToSend[DATABUFFERSIZE];
+//UCHAR bytDataToSend[DATABUFFERSIZE];
 
 // Outbound data buffer 
 
@@ -102,7 +102,7 @@ BOOL HostMode = 0;		// Host or Term
 
 BOOL PTCMode = FALSE;	// Running in PTC compatibility mode?
 
-volatile int RXBPtr;
+//volatile int RXBPtr;
 
 int change = 0;			// Flag for connect/disconnect reports
 int SCSState = 0;
@@ -480,7 +480,7 @@ BOOL CheckForLog()
 
 // SCS Emulator
 
-const unsigned short CRCTAB[256];
+//const unsigned short CRCTAB[256];
 
 unsigned short int xcompute_crc(unsigned char *buf,int len)
 {

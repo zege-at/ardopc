@@ -155,7 +155,7 @@ int intAvgFSKQuality;
 int intFrameSyncs;
 int intGoodPSKSummationDecodes;
 int intGoodFSKSummationDecodes;
-int intGoodQAMSummationDecodes;
+//int intGoodQAMSummationDecodes;
 float dblLeaderSNAvg;
 int intAccumPSKLeaderTracking;
 float dblAvgPSKRefErr;
