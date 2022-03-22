@@ -1,5 +1,4 @@
 ardopc_sources = [
-
   'LinSerial.c',
   'KISSModule.c',
   'pktARDOP.c',
@@ -33,6 +32,10 @@ m_dep = cc.find_library('m', required : true)
 rt_dep = cc.find_library('rt', required : true)
 
 executable('ardopc', ardopc_sources,
-  dependencies: [ardopc_deps, m_dep, rt_dep],
+  dependencies: [
+    ardopc_deps, 
+    m_dep, 
+    rt_dep,
+  ],
   install: true,
 )
