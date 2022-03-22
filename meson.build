@@ -18,7 +18,7 @@ add_project_arguments([
 ], language: 'c')
 
 add_project_arguments([
-  '-DLINBPQ -MMD -g'
+  '-DLINBPQ'
 ], language : 'c')
 
 subdir('src')
