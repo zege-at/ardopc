@@ -7,6 +7,3 @@ Find the Manual here: https://www.cantab.net/users/john.wiseman/Documents/ARDOPC
 
 ## License & Copyright
 There are some files in this repo without a licence and copyright information. I guess these files are from John Wiseman.
-
-## This repo is not compiling at the moment
-I'm still figuring out some problems. Help is welcome.
