@@ -75,4 +75,5 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-
+### zege ###
+*.backup*
