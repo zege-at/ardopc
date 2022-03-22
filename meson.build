@@ -17,6 +17,9 @@ add_project_arguments([
   '-I' + meson.build_root(),
 ], language: 'c')
 
+add_project_arguments([
+  '-DLINBPQ -MMD -g'
+], language : 'c')
 
 subdir('src')
 
