@@ -1,5 +1,5 @@
 ardopc_sources = [
-  'Main.c',
+
   'LinSerial.c',
   'KISSModule.c',
   'pktARDOP.c',
