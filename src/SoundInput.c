@@ -56,7 +56,7 @@ extern int NErrors;
 extern BOOL blnBREAKCmd;
 extern UCHAR bytLastACKedDataFrameType;
 extern int intARQDefaultDlyMs;
-//unsigned int tmrFinalID;
+unsigned int tmrFinal_ID;
 extern BOOL PKTCONNECTED;
 void DrawDecode(char * Decode);
 
@@ -1344,7 +1344,7 @@ ProcessFrame:
     
 					WriteDebugLog(LOGDEBUG, "[ARDOPprotocol.ProcessNewSamples]  DISC frame received in ProtocolMode FEC, Send END with SessionID= %XX", bytLastARQSessionID);
 
-					tmrFinalID = Now + 3000;			
+					tmrFinal_ID = Now + 3000;			
 					blnEnbARQRpt = FALSE;
 
 					EncLen = Encode4FSKControl(END, bytLastARQSessionID, bytEncodedBytes);

@@ -102,7 +102,7 @@ BOOL HostMode = 0;		// Host or Term
 
 BOOL PTCMode = FALSE;	// Running in PTC compatibility mode?
 
-//volatile int RXBPtr;
+volatile int RXB_Ptr;
 
 int change = 0;			// Flag for connect/disconnect reports
 int SCSState = 0;
@@ -480,7 +480,7 @@ BOOL CheckForLog()
 
 // SCS Emulator
 
-//const unsigned short CRCTAB[256];
+const unsigned short CRC_TAB[256];
 
 unsigned short int xcompute_crc(unsigned char *buf,int len)
 {
@@ -488,7 +488,7 @@ unsigned short int xcompute_crc(unsigned char *buf,int len)
 	int i;
 
 	for(i = 0; i < len; i++) 
-		fcs = (fcs >>8 ) ^ CRCTAB[(fcs ^ buf[i]) & 0xff]; 
+		fcs = (fcs >>8 ) ^ CRC_TAB[(fcs ^ buf[i]) & 0xff]; 
 
 	return fcs;
 }
@@ -1355,7 +1355,7 @@ VOID ProcessSCSPacket(UCHAR * rxbuffer, unsigned int Length)
 			
 			HostMode = 0;
 			DEDMode = 0;
-			RXBPtr = 0;
+			RXB_Ptr = 0;
 			return;
 		}
 		if (rxbuffer[2]  > Length - 4)
@@ -1366,7 +1366,7 @@ VOID ProcessSCSPacket(UCHAR * rxbuffer, unsigned int Length)
 		}
 
 		ProcessDEDModeFrame(rxbuffer, Length);
-		RXBPtr = 0;
+		RXB_Ptr = 0;
 		return;		
 	}		
 
@@ -1406,7 +1406,7 @@ Loop:
 
 		if (HostMode)
 		{
-			RXBPtr = 0;
+			RXB_Ptr = 0;
 			return;
 		}
 
@@ -1416,10 +1416,10 @@ Loop:
 		{
 			// Just ignore (I think!)
 
-			RXBPtr--;
-			if (RXBPtr)
+			RXB_Ptr--;
+			if (RXB_Ptr)
 			{
-				memmove(rxbuffer, rxbuffer+1, RXBPtr + 1);
+				memmove(rxbuffer, rxbuffer+1, RXB_Ptr + 1);
 				Length--;
 				goto Loop;
 			}
@@ -1430,10 +1430,10 @@ Loop:
 		{
 			// Status POLL
 
-			RXBPtr--;
-			if (RXBPtr)
+			RXB_Ptr--;
+			if (RXB_Ptr)
 			{
-				memmove(rxbuffer, rxbuffer+1, RXBPtr + 1);
+				memmove(rxbuffer, rxbuffer+1, RXB_Ptr + 1);
 				Length--;
 				goto Loop;
 			}
@@ -1468,7 +1468,7 @@ Loop:
 
 		if (strlen(rxbuffer) < Length)
 		{
-			RXBPtr = 0;
+			RXB_Ptr = 0;
 			WriteDebugLog(LOGDEBUG, "cancelling input %d %d %s ", strlen(rxbuffer), Length, rxbuffer);
 			return;
 		}
@@ -1477,7 +1477,7 @@ Loop:
 		if (ptr == 0)
 		{
 			if (Length > 290)
-				RXBPtr = 0;			// unreasonable length
+				RXB_Ptr = 0;			// unreasonable length
 		
 			// Wait for rest of frame
 
@@ -1489,19 +1489,19 @@ Loop:
 
 		// Complete Char Mode Frame
 
-		RXBPtr -= cmdlen;		// Ready for next frame
+		RXB_Ptr -= cmdlen;		// Ready for next frame
 		Length -= cmdlen;
 
 		ProcessSCSTextCommand(rxbuffer, cmdlen);
 
-		if (RXBPtr)
+		if (RXB_Ptr)
 		{
-			memmove(rxbuffer, ptr, RXBPtr + 1);
+			memmove(rxbuffer, ptr, RXB_Ptr + 1);
 			if (HostMode)
 			{
 				// now in host mode, so pass rest up a level
 				
-				ProcessSCSPacket(rxbuffer, RXBPtr);
+				ProcessSCSPacket(rxbuffer, RXB_Ptr);
 				return;
 			}
 			goto Loop;
@@ -1513,7 +1513,7 @@ Loop:
 
 	if (HostMode == 0)
 	{
-		RXBPtr = 0;
+		RXB_Ptr = 0;
 		return;
 	}
 
@@ -1524,7 +1524,7 @@ Loop:
 	{
 		// Retransmit Request
 	
-		RXBPtr = 0;
+		RXB_Ptr = 0;
 		return;				// Ignore for now
 	}
 
@@ -1538,14 +1538,14 @@ Loop:
 
 		WriteDebugLog(0, "ProcessSCSPacket Bad Unstuff Frame");
 
-		RXBPtr = 0;
+		RXB_Ptr = 0;
 		return;				// Ignore for now
 	}
 	crc = compute_crc(&UnstuffBuffer[2], Length);
 
 	if (crc == 0xf0b8)		// Good CRC
 	{
-		RXBPtr = 0;		// Ready for next frame
+		RXB_Ptr = 0;		// Ready for next frame
 		ProcessSCSHostFrame(&UnstuffBuffer[2], Length);
 		return;
 	}
