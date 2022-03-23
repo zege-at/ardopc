@@ -1,5 +1,5 @@
 # ardopc
-Github fork of ARDOPC from John Wiseman G8BPQ.
+Github fork of ARDOPC from [John Wiseman G8BPQ](https://github.com/g8bpq).
 
 Find the original files here: https://www.cantab.net/users/john.wiseman/Downloads/Beta/
 
