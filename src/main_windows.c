@@ -28,6 +28,9 @@
 
 #include <windows.h>
 #include <mmsystem.h>
+#include <math.h>
+
+#include "ARDOPC.h"
 
 
 #ifdef USE_DIREWOLF
@@ -45,10 +48,6 @@ VOID COMClearDTR(HANDLE fd);
 VOID COMSetRTS(HANDLE fd);
 VOID COMClearRTS(HANDLE fd);
 VOID processargs(int argc, char * argv[]);
-
-#include <math.h>
-
-#include "ARDOPC.h"
 
 void GetSoundDevices();
 
