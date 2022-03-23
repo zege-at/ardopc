@@ -25,7 +25,7 @@ cd /tmp/build
 ```
 Set up the build:
 ```
-meson ~/Projects/ARDOPC
+meson ~/Projects/ardopc
 ```
 Start the building
 ```
