@@ -3132,7 +3132,6 @@ VOID processargs(int argc, char * argv[]) {
       break;
 
     case 'k':
-
       ptr1 = optarg;
       ptr2 = PTTOnCmd;
 
@@ -3158,7 +3157,6 @@ VOID processargs(int argc, char * argv[]) {
       break;
 
     case 'u':
-
       ptr1 = optarg;
       ptr2 = PTTOffCmd;
 
@@ -3230,6 +3228,7 @@ VOID processargs(int argc, char * argv[]) {
     exit(EXIT_FAILURE);
   }
 }
+
 VOID LostHost()
 {
 	// Called if Link to host is lost
