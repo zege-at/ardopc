@@ -1,0 +1,61 @@
+.TH ARDOPC 1 "March 2022"
+
+.SH NAME
+ardopc \- Software ARDOP modem/TNC
+
+.SH SYNOPSIS
+.B ardopc
+[\fIPORT\fR]
+[\fIALSA-DEVICE\fR]
+[\fIOPTIONS\fR]
+
+.SH DESCRIPTION
+\fBardopc\fR is a Software ARDOP modem/TNC.
+.P
+It supports two host interfaces, TCP (using two TCP ports) or Serial using a Virtual COM port to link to the host.
+The serial interface can emulate an SCS Dragon controller, allowing programs that don't support ardop but support the Dragon (such as Winlink Express or Airmail) to use ardop.
+.P
+If run without any parameters it listens on TCP port 8515 and uses the virtual sound device ARDOP.
+You can specify command line parameters port capture device playback device.
+
+.SH OPTIONS
+
+.TP
+\fB\-l\fR, \fB--log-dir\fR \fIPATH\fR
+Path for Logfiles
+
+.TP
+\fB\-c\fR, \fB--cat\fR \fIDEVICE[:SPEED]\fR
+Device to use for CAT control
+
+.TP
+\fB\-p\fR, \fB--ptt\fR \fIDEVICE\fR
+Device to use for PTT (Push to Talk) control using RTS
+
+.TP
+\fB\-k\fR, \fB--keystring\fR \fISTRING\fR
+String (In HEX) to send to the radio to key PTT
+
+.TP
+\fB\-u\fR, \fB--unkeystring\fR \fISTRING\fR
+String (In HEX) to send to the radio to unkey PTT
+
+.TP
+\fB\-L\fR
+use left Channel of Soundcard in stereo mode
+
+.TP
+\fB\-R\fR
+use right Channel of Soundcard in stereo mode
+
+." .SH EXIT STATUS
+
+.SH EXAMPLES
+Use TCP port 8516:
+.T
+ardopc 8516 ARDOP
+
+.SH AUTHOR
+Written by John Wiseman G8BPQ
+
+." .SH HISTORY
