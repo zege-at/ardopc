@@ -3102,146 +3102,134 @@ char HelpScreen[] =
 	" See the ardop documentation for more information on cat and ptt options\n"
 	"  including when you need to use -k and -u\n\n";
 
-VOID processargs(int argc, char * argv[])
-{
-	int val;
-	UCHAR * ptr1;
-	UCHAR * ptr2;
-	int c;
+VOID processargs(int argc, char * argv[]) {
+  int val;
+  UCHAR * ptr1;
+  UCHAR * ptr2;
+  int c;
 
-	while (1)
-	{		
-		int option_index = 0;
+  while (1) {
+    int option_index = 0;
 
-		c = getopt_long(argc, argv, "l:c:p:g::k:u:hLR", long_options, &option_index);
+    c = getopt_long(argc, argv, "l:c:p:g::k:u:hLR", long_options, & option_index);
 
-		// Check for end of operation or error
-		if (c == -1) {
+    // Check for end of operation or error
+    if (c == -1) {
       break;
     }
 
-		// Handle options
-		switch (c)
-		{
-		case 'l':
-			strcpy(LogDir, optarg);
-			break;
-			
-		case 'g':
-			if (optarg)
-				pttGPIOPin = atoi(optarg);
-			else
-				pttGPIOPin = 17;
-			break;
+    // Handle options
+    switch (c) {
+    case 'l':
+      strcpy(LogDir, optarg);
+      break;
 
-		case 'k':
+    case 'g':
+      if (optarg)
+        pttGPIOPin = atoi(optarg);
+      else
+        pttGPIOPin = 17;
+      break;
 
-			ptr1 = optarg;
-			ptr2 = PTTOnCmd;
-		
-			if (ptr1 == NULL)
-			{
-				printf("RADIOPTTON command string missing\r");
-				exit(EXIT_FAILURE);
-			}
+    case 'k':
 
-			while (c = *(ptr1++))
-			{
-				val = c - 0x30;
-				if (val > 15) val -= 7;
-				val <<= 4;
-				c = *(ptr1++) - 0x30;
-				if (c > 15) c -= 7;
-				val |= c;
-				*(ptr2++) = val;
-			}
+      ptr1 = optarg;
+      ptr2 = PTTOnCmd;
 
-			PTTOnCmdLen = ptr2 - PTTOnCmd;
-			PTTMode = PTTCI_V;
+      if (ptr1 == NULL) {
+        printf("RADIOPTTON command string missing\r");
+        exit(EXIT_FAILURE);
+      }
 
-			printf ("PTTOnString %s len %d\n", optarg, PTTOnCmdLen);
-			break;
+      while (c = * (ptr1++)) {
+        val = c - 0x30;
+        if (val > 15) val -= 7;
+        val <<= 4;
+        c = * (ptr1++) - 0x30;
+        if (c > 15) c -= 7;
+        val |= c;
+        *(ptr2++) = val;
+      }
 
-		case 'u':
+      PTTOnCmdLen = ptr2 - PTTOnCmd;
+      PTTMode = PTTCI_V;
 
-			ptr1 = optarg;
-			ptr2 = PTTOffCmd;
+      printf("PTTOnString %s len %d\n", optarg, PTTOnCmdLen);
+      break;
 
-			if (ptr1 == NULL)
-			{
-				printf("RADIOPTTOFF command string missing\r");
-				exit(EXIT_FAILURE);
-			}
+    case 'u':
 
-			while (c = *(ptr1++))
-			{
-				val = c - 0x30;
-				if (val > 15) val -= 7;
-				val <<= 4;
-				c = *(ptr1++) - 0x30;
-				if (c > 15) c -= 7;
-				val |= c;
-				*(ptr2++) = val;
-			}
+      ptr1 = optarg;
+      ptr2 = PTTOffCmd;
 
-			PTTOffCmdLen = ptr2 - PTTOffCmd;
-			PTTMode = PTTCI_V;
+      if (ptr1 == NULL) {
+        printf("RADIOPTTOFF command string missing\r");
+        exit(EXIT_FAILURE);
+      }
 
-			printf ("PTTOffString %s len %d\n", optarg, PTTOffCmdLen);
-			break;
+      while (c = * (ptr1++)) {
+        val = c - 0x30;
+        if (val > 15) val -= 7;
+        val <<= 4;
+        c = * (ptr1++) - 0x30;
+        if (c > 15) c -= 7;
+        val |= c;
+        *(ptr2++) = val;
+      }
 
-		case 'p':
-			strcpy(PTTPort, optarg);
-			break;
+      PTTOffCmdLen = ptr2 - PTTOffCmd;
+      PTTMode = PTTCI_V;
 
-		case 'c':
-			strcpy(CATPort, optarg);
-			break;
+      printf("PTTOffString %s len %d\n", optarg, PTTOffCmdLen);
+      break;
 
-		case 'L':
-			UseLeft = 1;
-			UseRight = 0;
-			break;
+    case 'p':
+      strcpy(PTTPort, optarg);
+      break;
 
-		case 'R':
-			UseLeft = 0;
-			UseRight = 1;
-			break;
+    case 'c':
+      strcpy(CATPort, optarg);
+      break;
 
-		case 'h':
-			printf("ARDOPC Version %s\n", ProductVersion);
-			printf ("%s", HelpScreen);
-			exit(EXIT_SUCCESS);
+    case 'L':
+      UseLeft = 1;
+      UseRight = 0;
+      break;
+
+    case 'R':
+      UseLeft = 0;
+      UseRight = 1;
+      break;
+
+    case 'h':
+      printf("ARDOPC Version %s\n", ProductVersion);
+      printf("%s", HelpScreen);
+      exit(EXIT_SUCCESS);
 
     case '?':
     default:
-			printf("ARDOPC Version %s\n", ProductVersion);
-			printf ("%s", HelpScreen);
+      printf("ARDOPC Version %s\n", ProductVersion);
+      printf("%s", HelpScreen);
       exit(EXIT_FAILURE);
-		}
-	}
+    }
+  }
 
+  if (argc > optind) {
+    strcpy(HostPort, argv[optind]);
+  }
 
-	if (argc > optind)
-	{
-		strcpy(HostPort, argv[optind]);
-	}
+  if (argc > optind + 2) {
+    strcpy(CaptureDevice, argv[optind + 1]);
+    strcpy(PlaybackDevice, argv[optind + 2]);
+  }
 
-	if (argc > optind + 2)
-	{
-		strcpy(CaptureDevice, argv[optind + 1]);
-		strcpy(PlaybackDevice, argv[optind + 2]);
-	}
-
-	if (argc > optind + 3)
-	{
-		printf("ARDOPC Version %s\n", ProductVersion);
-		printf("Only three positional parameters allowed\n");
-		printf ("%s", HelpScreen);
-		exit(EXIT_FAILURE);
-	}
+  if (argc > optind + 3) {
+    printf("ARDOPC Version %s\n", ProductVersion);
+    printf("Only three positional parameters allowed\n");
+    printf("%s", HelpScreen);
+    exit(EXIT_FAILURE);
+  }
 }
-
 VOID LostHost()
 {
 	// Called if Link to host is lost
