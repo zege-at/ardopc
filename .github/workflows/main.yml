@@ -24,8 +24,3 @@ jobs:
       env:
         CC: gcc
     - run: meson test -C builddir/ -v
-    - uses: actions/upload-artifact@v1
-      if: failure()
-      with:
-        name: Linux_Meson_Testlog
-        path: builddir/meson-logs/testlog.txt
