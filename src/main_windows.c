@@ -1,13 +1,27 @@
-//
-//	Passes audio samples to the sound interface
-
-//	Windows uses WaveOut
-
-//	Nucleo uses DMA
-
-//	Linux will use ALSA
+/* main_windows.c
+ *
+ * Copyright 2001 John Wiseman G8BPQ
+ * Copyright 2022 Gerald Zehetner OE5GZE
+ *
+ *
+ * This file is part of ARDOPC.
+ *
+ * ARDOPC is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARDOPC is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 //	This is the Windows Version
+//	Passes audio samples to the sound interface
 
 #define _CRT_SECURE_NO_DEPRECATE
 #define _USE_32BIT_TIME_T
@@ -132,7 +146,7 @@ extern BOOL blnDISCRepeating;
 
 #define TARGET_RESOLUTION 1         // 1-millisecond target resolution
 
-	
+
 VOID __cdecl Debugprintf(const char * format, ...)
 {
 	char Mess[10000];
@@ -159,7 +173,7 @@ BOOL CtrlHandler(DWORD fdwCtrlType)
       return( TRUE );
 
     // CTRL-CLOSE: confirm that the user wants to exit.
- 
+
 	case CTRL_CLOSE_EVENT:
 
 	  blnClosing = TRUE;
@@ -204,13 +218,13 @@ void main(int argc, char * argv[])
 
 	SetConsoleCtrlHandler((PHANDLER_ROUTINE)CtrlHandler, TRUE);
 
-	if (timeGetDevCaps(&tc, sizeof(TIMECAPS)) != TIMERR_NOERROR) 
+	if (timeGetDevCaps(&tc, sizeof(TIMECAPS)) != TIMERR_NOERROR)
 	{
 	    // Error; application can't continue.
 	}
 
 	wTimerRes = min(max(tc.wPeriodMin, TARGET_RESOLUTION), tc.wPeriodMax);
-	timeBeginPeriod(wTimerRes); 
+	timeBeginPeriod(wTimerRes);
 
 	t = timeGetTime();
 
@@ -226,7 +240,7 @@ void main(int argc, char * argv[])
 	WriteDebugLog(LOGALERT, "ARDOPC Version %s", ProductVersion);
 
 	if (HostPort[0])
-	{		
+	{
 		char *pkt = strlop(HostPort, '/');
 
 		if (_memicmp(HostPort, "COM", 3) == 0)
@@ -270,12 +284,12 @@ void main(int argc, char * argv[])
 
 	if (hCATDevice)
 	{
-		WriteDebugLog(LOGALERT, "CAT Control on port %s", CATPort); 
+		WriteDebugLog(LOGALERT, "CAT Control on port %s", CATPort);
 		COMSetRTS(hPTTDevice);
 		COMSetDTR(hPTTDevice);
 		if (PTTOffCmdLen)
 		{
-			WriteDebugLog(LOGALERT, "PTT using CAT Port", CATPort); 
+			WriteDebugLog(LOGALERT, "PTT using CAT Port", CATPort);
 			RadioControl = TRUE;
 		}
 	}
@@ -284,16 +298,16 @@ void main(int argc, char * argv[])
 		// Warn of -u and -k defined but no CAT Port
 
 		if (PTTOffCmdLen)
-			WriteDebugLog(LOGALERT, "Warning PTT Off string defined but no CAT port", CATPort); 
+			WriteDebugLog(LOGALERT, "Warning PTT Off string defined but no CAT port", CATPort);
 	}
 
 	if (hPTTDevice)
 	{
-		WriteDebugLog(LOGALERT, "Using RTS on port %s for PTT", PTTPort); 
+		WriteDebugLog(LOGALERT, "Using RTS on port %s for PTT", PTTPort);
 		COMClearRTS(hPTTDevice);
 		COMClearDTR(hPTTDevice);
 		RadioControl = TRUE;
-	}	
+	}
 
 
 
@@ -302,7 +316,7 @@ void main(int argc, char * argv[])
 	QueryPerformanceCounter(&StartTicks);
 
 	GetSoundDevices();
-	
+
 	if(!SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS))
 		printf("Failed to set High Priority (%d)\n"), GetLastError();
 
@@ -365,7 +379,7 @@ short * SendtoCard(unsigned short * buf, int n)
 
 	while (!(header[!Index].dwFlags & WHDR_DONE))
 	{
-		txSleep(10);				// Run buckground while waiting 
+		txSleep(10);				// Run buckground while waiting
 	}
 
 	waveOutUnprepareHeader(hWaveOut, &header[!Index], sizeof(WAVEHDR));
@@ -389,7 +403,7 @@ void GetSoundDevices()
 
 	CaptureDevices = malloc((MAXPNAMELEN + 2) * CaptureCount);
 	CaptureDevices[0] = 0;
-	
+
 	for (i = 0; i < CaptureCount; i++)
 	{
 		waveInOpen(&hWaveIn, i, &wfx, 0, 0, CALLBACK_NULL); //WAVE_MAPPER
@@ -508,7 +522,7 @@ void PollReceivedSamples()
 	// Process any captured samples
 	// Ideally call at least every 100 mS, more than 200 will loose data
 
-	// For level display we want a fairly rapir level average but only want to report 
+	// For level display we want a fairly rapir level average but only want to report
 	// to log every 10 secs or so
 
 	if (inheader[inIndex].dwFlags & WHDR_DONE)
@@ -531,7 +545,7 @@ void PollReceivedSamples()
 		{
 			if (WaterfallActive == 0 && SpectrumActive == 0)				// Don't need to send as included in Waterfall Line
 				SendtoGUI('L', &CurrentLevel, 1);	// Signal Level
-			
+
 			lastlevelGUI = Now;
 
 			if ((Now - lastlevelreport) > 10000)	// 10 Secs
@@ -557,7 +571,7 @@ void PollReceivedSamples()
 		waveInAddBuffer(hWaveIn, &inheader[inIndex], sizeof(WAVEHDR));
 
 		inIndex++;
-		
+
 		if (inIndex == NumberofinBuffers)
 			inIndex = 0;
 	}
@@ -582,7 +596,7 @@ void StartCapture()
 //	WriteDebugLog(LOGDEBUG, "Start Capture");
 }
 void CloseSound()
-{ 
+{
 	waveInClose(hWaveIn);
 	waveOutClose(hWaveOut);
 }
@@ -590,7 +604,7 @@ void CloseSound()
 #include <stdarg.h>
 
 VOID CloseDebugLog()
-{	
+{
 	if(logfile[0])
 		fclose(logfile[0]);
 	logfile[0] = NULL;
@@ -605,7 +619,7 @@ VOID WriteDebugLog(int LogLevel, const char * format, ...)
 	UCHAR Value[100];
 	SYSTEMTIME st;
 
-	
+
 	va_start(arglist, format);
 #ifdef LOGTOHOST
 	vsnprintf(&Mess[1], sizeof(Mess), format, arglist);
@@ -627,7 +641,7 @@ VOID WriteDebugLog(int LogLevel, const char * format, ...)
 		return;
 
 	GetSystemTime(&st);
-	
+
 	if (logfile[0] == NULL)
 	{
 		if (HostPort[0])
@@ -636,7 +650,7 @@ VOID WriteDebugLog(int LogLevel, const char * format, ...)
 		else
 			sprintf(Value, "%s%d_%04d%02d%02d.log",
 				&LogName[0], port, st.wYear, st.wMonth, st.wDay);
-		
+
 		if ((logfile[0] = fopen(Value, "ab")) == NULL)
 			return;
 	}
@@ -671,7 +685,7 @@ VOID Statsprintf(const char * format, ...)
 	va_start(arglist, format);
 	vsnprintf(Mess, sizeof(Mess), format, arglist);
 	strcat(Mess, "\r\n");
-	
+
 	if (statslogfile == NULL)
 	{
 		GetSystemTime(&st);
@@ -708,7 +722,7 @@ unsigned short * SoundInit()
 	Index = 0;
 	return &buffer[0][0];
 }
-	
+
 //	Called at end of transmission
 
 extern int Number;				// Number of samples waiting to be sent
@@ -725,7 +739,7 @@ void SoundFlush()
 	SendtoCard(buffer[Index], Number);
 
 	//	Wait for all sound output to complete
-	
+
 	while (!(header[0].dwFlags & WHDR_DONE))
 		txSleep(10);
 	while (!(header[1].dwFlags & WHDR_DONE))
@@ -737,7 +751,7 @@ void SoundFlush()
 	SoundIsPlaying = FALSE;
 
 	//'Debug.WriteLine("[tmrPoll.Tick] Play stop. Length = " & Format(Now.Subtract(dttTestStart).TotalMilliseconds, "#") & " ms")
-          
+
 //		WriteDebugLog(LOGDEBUG, "Play complete blnEnbARQRpt = %d", blnEnbARQRpt);
 
 	if (blnEnbARQRpt > 0 || blnDISCRepeating)	// Start Repeat Timer if frame should be repeated
@@ -755,13 +769,13 @@ void SoundFlush()
 
 	StartCapture();
 
-		//' clear the transmit label 
+		//' clear the transmit label
         //        stcStatus.BackColor = SystemColors.Control
         //        stcStatus.ControlName = "lblXmtFrame" ' clear the transmit label
         //        queTNCStatus.Enqueue(stcStatus)
         //        stcStatus.ControlName = "lblRcvFrame" ' clear the Receive label
         //        queTNCStatus.Enqueue(stcStatus)
-          
+
 
 	return;
 }
@@ -802,7 +816,7 @@ VOID RadioPTT(BOOL PTTState)
 
 }
 
-//  Function to send PTT TRUE or PTT FALSE comannad to Host or if local Radio control Keys radio PTT 
+//  Function to send PTT TRUE or PTT FALSE comannad to Host or if local Radio control Keys radio PTT
 
 const char BoolString[2][6] = {"FALSE", "TRUE"};
 
@@ -835,7 +849,7 @@ void PlatformSleep()
 	//	Sleep to avoid using all cpu
 
 	Sleep(10);
-		
+
 	if (PKTLEDTimer && Now > PKTLEDTimer)
     {
       PKTLEDTimer = 0;
@@ -847,7 +861,7 @@ void displayState(const char * State)
 {
 	char Msg[80];
 
-	strcpy(Msg, State); 
+	strcpy(Msg, State);
 	SendtoGUI('S', Msg, strlen(Msg) + 1);		// Protocol State
 	// Dummy for i2c display
 }
@@ -856,7 +870,7 @@ void DrawTXMode(const char * Mode)
 {
 	char Msg[80];
 
-	strcpy(Msg, Mode); 
+	strcpy(Msg, Mode);
 	SendtoGUI('T', Msg, strlen(Msg) + 1);		// TX Frame
 }
 
@@ -864,7 +878,7 @@ void DrawTXFrame(const char * Frame)
 {
 	char Msg[80];
 
-	strcpy(Msg, Frame); 
+	strcpy(Msg, Frame);
 	SendtoGUI('T', Msg, strlen(Msg) + 1);		// TX Frame
 }
 
@@ -1126,7 +1140,7 @@ UCHAR * pixelPointer = Pixels;
 void mySetPixel(unsigned char x, unsigned char y, unsigned int Colour)
 {
 	// Used on Windows for constellation. Save points and send to GUI at end
-	
+
 	*(pixelPointer++) = x;
 	*(pixelPointer++) = y;
 	*(pixelPointer++) = Colour;
@@ -1140,19 +1154,19 @@ void clearDisplay()
 }
 void updateDisplay()
 {
-//	 SendtoGUI('C', Pixels, pixelPointer - Pixels);	
+//	 SendtoGUI('C', Pixels, pixelPointer - Pixels);
 }
 void DrawAxes(int Qual, const char * Frametype, char * Mode)
 {
 	UCHAR Msg[80];
 
 	// Teensy used Frame Type, GUI Mode
-	
-	SendtoGUI('C', Pixels, pixelPointer - Pixels);	
+
+	SendtoGUI('C', Pixels, pixelPointer - Pixels);
 	pixelPointer = Pixels;
 
 	sprintf(Msg, "%s Quality: %d", Mode, Qual);
-	SendtoGUI('Q', Msg, strlen(Msg) + 1);	
+	SendtoGUI('Q', Msg, strlen(Msg) + 1);
 }
 void DrawDecode(char * Decode)
 {}

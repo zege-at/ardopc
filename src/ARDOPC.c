@@ -3247,9 +3247,10 @@ VOID LostHost()
 	// Called if Link to host is lost
 
 	// Close any sessions
-
-	if (ProtocolState == IDLE || ProtocolState == IRS || ProtocolState == ISS || ProtocolState == IRStoISS)
-		blnARQDisconnect = TRUE;
+  if (ProtocolState == IDLE || ProtocolState == IRS || ProtocolState == ISS || ProtocolState == IRStoISS)
+  {
+    blnARQDisconnect = TRUE;
+  }
 
 	ClosePacketSessions();
 }

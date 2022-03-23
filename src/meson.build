@@ -5,7 +5,6 @@ ardopc_sources = [
   'pktSession.c',
   'BusyDetect.c',
   'i2cDisplay.c',
-  'ALSASound.c',
   'ARDOPC.c',
   'ardopSampleArrays.c',
   'ARQ.c',
@@ -19,6 +18,7 @@ ardopc_sources = [
   'SoundInput.c',
   'TCPHostInterface.c',
   'SCSHostInterface.c',
+  'main.c',
 ]
 
 ardopc_deps = [
