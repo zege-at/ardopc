@@ -3079,28 +3079,28 @@ static struct option long_options[] =
 };
 
 char HelpScreen[] =
-	"Usage:\n"
-	"ardopc port [capture device playbackdevice] [Options]\n"
-	"defaults are port = 8515, capture device ARDOP playback device ARDOP\n"
-	"If you need to specify capture and playback devices you must specify port\n"
-	"\n"
-	"For TCP Host connection, port is TCP Port Number\n"
-	"For Serial Host Connection port must start with \"COM\" or \"com\"\n"
-	"  On Windows use the name of the BPQ Virtual COM Port, eg COM4\n"
-	"  On Linux the program will create a pty and symlink it to the specified name.\n"
-	"\n"
-	"Optional Paramters\n"
-	"-l path or --logdir path          Path for log files\n"
-	"-c device or --cat device         Device to use for CAT Control\n"
-	"-p device or --ptt device         Device to use for PTT control using RTS\n"
-	"-k string or --keystring string   String (In HEX) to send to the radio to key PTT\n"
-	"-u string or --unkeystring string String (In HEX) to send to the radio to unkeykey PTT\n"
-	"-L use Left Channel of Soundcard in stereo mode\n"
-	"-R use Right Channel of Soundcard in stereo mode\n"
-	"\n"
-	" CAT and RTS PTT can share the same port.\n"
-	" See the ardop documentation for more information on cat and ptt options\n"
-	"  including when you need to use -k and -u\n\n";
+  "Usage:\n"
+  "ardopc port [capture device playbackdevice] [Options]\n"
+  "defaults are port = 8515, capture device ARDOP playback device ARDOP\n"
+  "If you need to specify capture and playback devices you must specify port\n"
+  "\n"
+  "For TCP Host connection, port is TCP Port Number\n"
+  "For Serial Host Connection port must start with \"COM\" or \"com\"\n"
+  "  On Windows use the name of the BPQ Virtual COM Port, eg COM4\n"
+  "  On Linux the program will create a pty and symlink it to the specified name.\n"
+  "\n"
+  "Optional Paramters\n"
+  "-l path or --logdir path          Path for log files\n"
+  "-c device or --cat device         Device to use for CAT Control\n"
+  "-p device or --ptt device         Device to use for PTT control using RTS\n"
+  "-k string or --keystring string   String (In HEX) to send to the radio to key PTT\n"
+  "-u string or --unkeystring string String (In HEX) to send to the radio to unkeykey PTT\n"
+  "-L use Left Channel of Soundcard in stereo mode\n"
+  "-R use Right Channel of Soundcard in stereo mode\n"
+  "\n"
+  " CAT and RTS PTT can share the same port.\n"
+  "See the ardop documentation for more information on cat and ptt options\n"
+  "including when you need to use -k and -u\n\n";
 
 VOID processargs(int argc, char * argv[]) {
   int val;
@@ -3229,16 +3229,13 @@ VOID processargs(int argc, char * argv[]) {
   }
 }
 
-VOID LostHost()
-{
-	// Called if Link to host is lost
+VOID LostHost() {
+  // Called if Link to host is lost
 
-	// Close any sessions
-  if (ProtocolState == IDLE || ProtocolState == IRS || ProtocolState == ISS || ProtocolState == IRStoISS)
-  {
+  // Close any sessions
+  if (ProtocolState == IDLE || ProtocolState == IRS || ProtocolState == ISS || ProtocolState == IRStoISS) {
     blnARQDisconnect = TRUE;
   }
 
-	ClosePacketSessions();
+  ClosePacketSessions();
 }
-
