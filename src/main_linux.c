@@ -1,4 +1,4 @@
-/* ALSASound.c
+/* main_linux.c
  *
  * Copyright 2001 John Wiseman G8BPQ
  * Copyright 2022 Gerald Zehetner OE5GZE
