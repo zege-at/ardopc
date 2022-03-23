@@ -23,19 +23,22 @@
 // ARDOPC.c : Defines the entry point for the console application.
 
 #ifdef WIN32
+
 #define _CRT_SECURE_NO_DEPRECATE
 #define _USE_32BIT_TIME_T
 #include <windows.h>
 #include <mmsystem.h>
 #pragma comment(lib, "winmm.lib")
+
 #else
+
 #include <unistd.h>
 #define SOCKET int
 #define closesocket close
+
 #endif
 
 #include <getopt.h>
-
 #include "ARDOPC.h"
 
 
@@ -2959,60 +2962,55 @@ void UpdateBusyDetector(short * bytNewSamples)
 }
 
 void SendPING(char * strMycall, char * strTargetCall, int intRpt)
-{   	
-	EncLen = EncodePing(strMycall, strTargetCall, bytEncodedBytes);
+{
+  EncLen = EncodePing(strMycall, strTargetCall, bytEncodedBytes);
 
-	if (EncLen == 0)
-		return;
-	
-	// generate the modulation with 2 x the default FEC leader length...Should insure reception at the target
-	// Note this is sent with session ID 0xFF
+  if (EncLen == 0)
+    return;
 
-	//	Set all flags before playing, as the End TX is called before we return here
-	
-	intFrameRepeatInterval = 2000;  // ms ' Finn reported 7/4/2015 that 1600 was too short ...need further evaluation but temporarily moved to 2000 ms
-	blnEnbARQRpt = TRUE;
+  // generate the modulation with 2 x the default FEC leader length...Should insure reception at the target
+  // Note this is sent with session ID 0xFF
 
-	Mod4FSKDataAndPlay(bytEncodedBytes[0], &bytEncodedBytes[0], EncLen, LeaderLength);		// only returns when all sent
-        
-	blnAbort = False;
-	dttTimeoutTrip = Now;
-	intRepeatCount = 1;
-	intPINGRepeats = intRpt;
-	blnPINGrepeating = True;
-	dttLastPINGSent = Now;
+  //	Set all flags before playing, as the End TX is called before we return here
 
-	WriteDebugLog(LOGDEBUG, "[SendPING] strMycall= %s strTargetCall=%s  Repeat=%d", strMycall, strTargetCall, intRpt);
+  intFrameRepeatInterval = 2000; // ms ' Finn reported 7/4/2015 that 1600 was too short ...need further evaluation but temporarily moved to 2000 ms
+  blnEnbARQRpt = TRUE;
 
-	return;
+  Mod4FSKDataAndPlay(bytEncodedBytes[0], & bytEncodedBytes[0], EncLen, LeaderLength); // only returns when all sent
+
+  blnAbort = False;
+  dttTimeoutTrip = Now;
+  intRepeatCount = 1;
+  intPINGRepeats = intRpt;
+  blnPINGrepeating = True;
+  dttLastPINGSent = Now;
+
+  WriteDebugLog(LOGDEBUG, "[SendPING] strMycall= %s strTargetCall=%s  Repeat=%d", strMycall, strTargetCall, intRpt);
+
+  return;
 }
  
-// This sub processes a correctly decoded Ping frame, decodes it an passed to host for display if it doesn't duplicate the prior passed frame. 
-
+// This sub processes a correctly decoded Ping frame, decodes it an passed to host for display if it doesn't duplicate the prior passed frame.
 void ProcessPingFrame(char * bytData)
 {
-	WriteDebugLog(LOGDEBUG, "ProcessPingFrame Protocol State = %s", ARDOPStates[ProtocolState]);
-	
-	if (ProtocolState == DISC)
-	{
-		char * strPingInfo = strlop(bytData, ' ');
-		
-		if (blnListen && IsPingToMe(strPingInfo) && EnablePingAck)
-		{
-			// Ack Ping
+  WriteDebugLog(LOGDEBUG, "ProcessPingFrame Protocol State = %s", ARDOPStates[ProtocolState]);
 
-			EncLen = EncodePingAck(PINGACK, stcLastPingintRcvdSN, stcLastPingintQuality, bytEncodedBytes);
-			Mod4FSKDataAndPlay(PINGACK, &bytEncodedBytes[0], EncLen, LeaderLength);		// only returns when all sent
-               
-			WriteDebugLog(LOGDEBUG, "[ProcessPingFrame] PING from %s S:N=%d Qual=%d", bytData, stcLastPingintRcvdSN, stcLastPingintQuality);
-			SendCommandToHost("PINGREPLY");	
-			return;
-		}
-	}	
-	SendCommandToHost("CANCELPENDING");	
+  if (ProtocolState == DISC) {
+    char * strPingInfo = strlop(bytData, ' ');
+
+    if (blnListen && IsPingToMe(strPingInfo) && EnablePingAck) {
+      // Ack Ping
+
+      EncLen = EncodePingAck(PINGACK, stcLastPingintRcvdSN, stcLastPingintQuality, bytEncodedBytes);
+      Mod4FSKDataAndPlay(PINGACK, & bytEncodedBytes[0], EncLen, LeaderLength); // only returns when all sent
+
+      WriteDebugLog(LOGDEBUG, "[ProcessPingFrame] PING from %s S:N=%d Qual=%d", bytData, stcLastPingintRcvdSN, stcLastPingintQuality);
+      SendCommandToHost("PINGREPLY");
+      return;
+    }
+  }
+  SendCommandToHost("CANCELPENDING");
 }
-
-
 
 unsigned const short CRCTAB[256] =
 {
