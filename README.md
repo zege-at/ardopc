@@ -7,3 +7,31 @@ Find the Manual here: https://www.cantab.net/users/john.wiseman/Documents/ARDOPC
 
 ## License & Copyright
 There are some files in this repo without a licence and copyright information. I guess these files are from John Wiseman.
+
+## Building ARDOPC
+Clone this repository:
+```
+mkdir ~/Projects
+cd ~/Projects
+git clone https://github.com/zege-at/ardopc.git
+```
+
+Set up a building directory:
+```
+mkdir -p /tmp/build
+cd /tmp/build
+```
+Set up the build:
+```
+meson ~/Projects/ARDOPC
+```
+Start the building
+```
+ninja
+```
+Install the compiled program to your computer
+```
+ninja install
+```
+## Documentation
+After building and installing ARDOPC to your computer you can find the documentation with `man ardopc`
