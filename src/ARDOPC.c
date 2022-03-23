@@ -3055,8 +3055,10 @@ unsigned short int compute_crc(unsigned char *buf,int len)
 	unsigned short fcs = 0xffff; 
 	int i;
 
-	for(i = 0; i < len; i++) 
-		fcs = (fcs >>8 ) ^ CRCTAB[(fcs ^ buf[i]) & 0xff]; 
+	for(i = 0; i < len; i++)
+    {
+      fcs = (fcs >>8 ) ^ CRCTAB[(fcs ^ buf[i]) & 0xff];
+    }
 
 	return fcs;
 }
@@ -3114,22 +3116,16 @@ VOID processargs(int argc, char * argv[])
 		c = getopt_long(argc, argv, "l:c:p:g::k:u:hLR", long_options, &option_index);
 
 		// Check for end of operation or error
-		if (c == -1)
-			break;
+		if (c == -1) {
+      break;
+    }
 
 		// Handle options
 		switch (c)
 		{
-		case 'h':
-	
-			printf("ARDOPC Version %s\n", ProductVersion);
-			printf ("%s", HelpScreen);
-			exit(0);
-
 		case 'l':
 			strcpy(LogDir, optarg);
 			break;
-
 			
 		case 'g':
 			if (optarg)
@@ -3146,7 +3142,7 @@ VOID processargs(int argc, char * argv[])
 			if (ptr1 == NULL)
 			{
 				printf("RADIOPTTON command string missing\r");
-				break;
+				exit(EXIT_FAILURE);
 			}
 
 			while (c = *(ptr1++))
@@ -3174,7 +3170,7 @@ VOID processargs(int argc, char * argv[])
 			if (ptr1 == NULL)
 			{
 				printf("RADIOPTTOFF command string missing\r");
-				break;
+				exit(EXIT_FAILURE);
 			}
 
 			while (c = *(ptr1++))
@@ -3212,12 +3208,16 @@ VOID processargs(int argc, char * argv[])
 			UseRight = 1;
 			break;
 
-		case '?':
-			/* getopt_long already printed an error message. */
-			break;
+		case 'h':
+			printf("ARDOPC Version %s\n", ProductVersion);
+			printf ("%s", HelpScreen);
+			exit(EXIT_SUCCESS);
 
-		default:
-			abort();
+    case '?':
+    default:
+			printf("ARDOPC Version %s\n", ProductVersion);
+			printf ("%s", HelpScreen);
+      exit(EXIT_FAILURE);
 		}
 	}
 
@@ -3238,7 +3238,7 @@ VOID processargs(int argc, char * argv[])
 		printf("ARDOPC Version %s\n", ProductVersion);
 		printf("Only three positional parameters allowed\n");
 		printf ("%s", HelpScreen);
-		exit(0);
+		exit(EXIT_FAILURE);
 	}
 }
 
