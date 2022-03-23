@@ -3050,17 +3050,16 @@ unsigned const short CRCTAB[256] = {
 }; 
 
 
-unsigned short int compute_crc(unsigned char *buf,int len)
+unsigned short int compute_crc(unsigned char * buf, int len)
 {
-	unsigned short fcs = 0xffff; 
-	int i;
+  unsigned short fcs = 0xffff;
+  int i;
 
-	for(i = 0; i < len; i++)
-    {
-      fcs = (fcs >>8 ) ^ CRCTAB[(fcs ^ buf[i]) & 0xff];
-    }
+  for (i = 0; i < len; i++) {
+    fcs = (fcs >> 8) ^ CRCTAB[(fcs ^ buf[i]) & 0xff];
+  }
 
-	return fcs;
+  return fcs;
 }
 
 extern BOOL UseLeft;
