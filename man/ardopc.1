@@ -5,12 +5,13 @@ ardopc \- Software ARDOP modem/TNC
 
 .SH SYNOPSIS
 .B ardopc
-[\fIPORT\fR]
-[\fIALSA-DEVICE\fR]
-[\fIOPTIONS\fR]
+.RI [ PORT ]
+.RI [ ALSA-DEVICE ]
+.RI [ OPTIONS ]
 
 .SH DESCRIPTION
-\fBardopc\fR is a Software ARDOP modem/TNC.
+.B ardopc
+is a Software ARDOP modem/TNC.
 .P
 It supports two host interfaces, TCP (using two TCP ports) or Serial using a Virtual COM port to link to the host.
 The serial interface can emulate an SCS Dragon controller, allowing programs that don't support ardop but support the Dragon (such as Winlink Express or Airmail) to use ardop.
@@ -21,46 +22,46 @@ You can specify command line parameters port capture device playback device.
 .SH OPTIONS
 
 .TP
-\fB\-l\fR, \fB--log-dir\fR \fIPATH\fR
+.B -l --log-dir \fIPATH\fR
 Path for Logfiles
 
 .TP
-\fB\-c\fR, \fB--cat\fR \fIDEVICE[:SPEED]\fR
+.B -c --cat \fIDEVICE[:SPEED]\fR
 Device to use for CAT control
 
 .TP
-\fB\-p\fR, \fB--ptt\fR \fIDEVICE\fR
+.B -p --ptt \fIDEVICE\fR
 Device to use for PTT (Push to Talk) control using RTS
 
 .TP
-\fB\-k\fR, \fB--keystring\fR \fISTRING\fR
+.B -k --keystring \fISTRING\fR
 String (In HEX) to send to the radio to key PTT
 
 .TP
-\fB\-u\fR, \fB--unkeystring\fR \fISTRING\fR
+.B -u --unkeystring \fISTRING\fR
 String (In HEX) to send to the radio to unkey PTT
 
 .TP
-\fB\-L\fR
+.B -L
 use left Channel of Soundcard in stereo mode
 
 .TP
-\fB\-R\fR
+.B -R
 use right Channel of Soundcard in stereo mode
 
 .TP
-\fB\-g\fR
+.B -g
 GPIO Pin for PTT.
 
 .TP
-\fB\-h\fR, \fB--help\fR
+.B -h --help
 shows help and exits
 
 ." .SH EXIT STATUS
 
 .SH EXAMPLES
+.TP
 Use TCP port 8516:
-.T
 ardopc 8516 ARDOP
 
 .SH AUTHOR

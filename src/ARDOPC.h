@@ -76,7 +76,6 @@ unsigned int getTicks();
 #define LOGDEBUG 7
 
 #include <time.h>
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

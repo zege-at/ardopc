@@ -64,7 +64,6 @@ void LookforPacket(float * dblMag, float dblMagAvg, int count, float * real, flo
 void PktARDOPStartTX();
 
 // Config parameters
-
 char GridSquare[9] = "";
 char Callsign[10] = "";
 BOOL wantCWID = FALSE;
