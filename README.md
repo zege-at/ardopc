@@ -1,3 +1,5 @@
+[![ci_meson](https://github.com/zege-at/ardopc/actions/workflows/main.yml/badge.svg)](https://github.com/zege-at/ardopc/actions/workflows/main.yml)
+
 # ARDOPC
 Github fork of ARDOPC from [John Wiseman G8BPQ](https://github.com/g8bpq).
 
