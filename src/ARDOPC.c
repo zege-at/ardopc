@@ -3069,13 +3069,13 @@ extern char LogDir[256];
 
 static struct option long_options[] =
 {
-	{"logdir",  required_argument, 0 , 'l'},
-	{"ptt",  required_argument, 0 , 'p'},
-	{"cat",  required_argument, 0 , 'c'},
-	{"keystring",  required_argument, 0 , 'k'},
-	{"unkeystring",  required_argument, 0 , 'u'},
-	{"help",  no_argument, 0 , 'h'},
-	{ NULL , no_argument , NULL , no_argument }
+  {"logdir",  required_argument, 0 , 'l'},
+  {"ptt",  required_argument, 0 , 'p'},
+  {"cat",  required_argument, 0 , 'c'},
+  {"keystring",  required_argument, 0 , 'k'},
+  {"unkeystring",  required_argument, 0 , 'u'},
+  {"help",  no_argument, 0 , 'h'},
+  {NULL , no_argument , NULL , no_argument}
 };
 
 char HelpScreen[] =
