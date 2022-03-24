@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: install-libasound2-dev
-      run: apt install libasound2-dev     
+      run: sudo apt -y install libasound2-dev     
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v1
     - uses: BSFishy/meson-build@v1.0.3
