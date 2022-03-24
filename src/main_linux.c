@@ -876,10 +876,11 @@ int OpenSoundPlayback(char * PlaybackDevice, int m_sampleRate, int channels, cha
 	snd_pcm_hw_params_t *hw_params;
 	
 	if ((err = snd_pcm_open(&playhandle, buf1, SND_PCM_STREAM_PLAYBACK, SND_PCM_NONBLOCK)) < 0) {
-		if (ErrorMsg)
+		if (ErrorMsg) {
 			sprintf (ErrorMsg, "cannot open playback audio device %s (%s)",  buf1, snd_strerror(err));
-		else
+    } else {
 			Debugprintf("cannot open playback audio device %s (%s)",  buf1, snd_strerror(err));
+    }
 		return false;
 	}
 		   
@@ -903,10 +904,11 @@ int OpenSoundPlayback(char * PlaybackDevice, int m_sampleRate, int channels, cha
 	}
 
 	if ((err = snd_pcm_hw_params_set_rate (playhandle, hw_params, m_sampleRate, 0)) < 0) {
-		if (ErrorMsg)
+		if (ErrorMsg) {
 			sprintf (ErrorMsg, "cannot set playback sample rate (%s)", snd_strerror(err));
-		else
+    } else {
 			Debugprintf("cannot set playback sample rate (%s)", snd_strerror(err));
+    }
 		return false;
 	}
 
@@ -916,8 +918,9 @@ int OpenSoundPlayback(char * PlaybackDevice, int m_sampleRate, int channels, cha
 	{
 		Debugprintf("cannot set play channel count to %d (%s)", channels, snd_strerror(err));
 		
-		if (channels == 2)
+		if (channels == 2) {
 			return false;				// Shouldn't happen as should have worked before
+    }
 		
 		channels = 2;
 
@@ -973,10 +976,11 @@ int OpenSoundCapture(char * CaptureDevice, int m_sampleRate, char * ErrorMsg)
 	if (ptr) *ptr = 0;				// Get Device part of name
 	
 	if ((err = snd_pcm_open (&rechandle, buf1, SND_PCM_STREAM_CAPTURE, 0)) < 0) {
-		if (ErrorMsg)
+		if (ErrorMsg) {
 			sprintf (ErrorMsg, "cannot open capture audio device %s (%s)",  buf1, snd_strerror(err));
-		else
+    } else {
 			Debugprintf("cannot open capture audio device %s (%s)",  buf1, snd_strerror(err));
+    }
 		return false;
 	}
 	   
@@ -1000,10 +1004,11 @@ int OpenSoundCapture(char * CaptureDevice, int m_sampleRate, char * ErrorMsg)
 	}
 	
 	if ((err = snd_pcm_hw_params_set_rate (rechandle, hw_params, m_sampleRate, 0)) < 0) {
-		if (ErrorMsg)
+		if (ErrorMsg) {
 			sprintf (ErrorMsg, "cannot set capture sample rate (%s)", snd_strerror(err));
-		else
+    } else {
 			Debugprintf("cannot set capture sample rate (%s)", snd_strerror(err));
+    }
 		return false;
 	}
 
@@ -1014,10 +1019,11 @@ int OpenSoundCapture(char * CaptureDevice, int m_sampleRate, char * ErrorMsg)
 	
 	if ((err = snd_pcm_hw_params_set_channels (rechandle, hw_params, m_recchannels)) < 0)
 	{
-		if (ErrorMsg)
+		if (ErrorMsg) {
 			sprintf (ErrorMsg, "cannot set rec channel count to %d (%s)" ,m_recchannels, snd_strerror(err));
-		else
+    } else {
 			Debugprintf("cannot set rec channel count to %d (%s)", m_recchannels, snd_strerror(err));
+    }
 	
 		if (m_recchannels  == 1)
 		{
@@ -1028,10 +1034,11 @@ int OpenSoundCapture(char * CaptureDevice, int m_sampleRate, char * ErrorMsg)
 				Debugprintf("cannot set rec channel count to 2 (%s)", snd_strerror(err));
 				return false;
 			}
-			if (ErrorMsg)
+			if (ErrorMsg) {
 				sprintf (ErrorMsg, "Record channel count set to 2 (%s)", snd_strerror(err));
-			else
+      } else {
 				Debugprintf("Record channel count set to 2 (%s)", snd_strerror(err));
+      }
 		}
 	}
 	
@@ -1378,7 +1385,10 @@ void InitSound(BOOL Quiet)
 	GetInputDeviceCollection();
 	GetOutputDeviceCollection();
 	
-	OpenSoundCard(CaptureDevice, PlaybackDevice, 12000, 12000, NULL);
+	if (OpenSoundCard(CaptureDevice, PlaybackDevice, 12000, 12000, NULL) == false)
+    {
+      exit(EXIT_FAILURE);
+    }
 }
 
 int min = 0, max = 0, lastlevelreport = 0, lastlevelGUI = 0;
@@ -1450,7 +1460,9 @@ void StopCapture()
 void StartCodec(char * strFault)
 {
 	strFault[0] = 0;
-	OpenSoundCard(CaptureDevice, PlaybackDevice, 12000, 12000, strFault);
+	if (OpenSoundCard(CaptureDevice, PlaybackDevice, 12000, 12000, strFault) == false) {
+    exit(EXIT_FAILURE);
+  }
 }
 
 void StopCodec(char * strFault)
