@@ -3077,9 +3077,10 @@ static struct option long_options[] =
 
 char HelpScreen[] =
   "Usage:\n"
-  "ardopc port [capture device playbackdevice] [Options]\n"
-  "defaults are port = 8515, capture device ARDOP playback device ARDOP\n"
-  "If you need to specify capture and playback devices you must specify port\n"
+  "ardopc [port] [ALSA-DEVICE capture] [ALSA-DEVICE playback] [Options]\n"
+  "\n"
+  "Defaults are port: 8515, capture device: ARDOP, playback device: ARDOP\n"
+  "If you need to specify capture and playback devices you must specify port.\n"
   "\n"
   "For TCP Host connection, port is TCP Port Number\n"
   "For Serial Host Connection port must start with \"COM\" or \"com\"\n"
@@ -3095,9 +3096,8 @@ char HelpScreen[] =
   "-L use Left Channel of Soundcard in stereo mode\n"
   "-R use Right Channel of Soundcard in stereo mode\n"
   "\n"
-  " CAT and RTS PTT can share the same port.\n"
-  "See the ardop documentation for more information on cat and ptt options\n"
-  "including when you need to use -k and -u\n\n";
+  "CAT and RTS PTT can share the same port.\n"
+  "See man ardopc for more information.\n\n";
 
 VOID processargs(int argc, char * argv[]) {
   int val;
