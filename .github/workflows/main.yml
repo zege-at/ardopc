@@ -9,6 +9,7 @@ on:
     paths:
       - "**.c"
       - "**.h"
+  workflow_dispatch:
 
 jobs:
 
