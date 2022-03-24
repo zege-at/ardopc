@@ -23,7 +23,7 @@
 #define ARDOPCHEADERDEFINED
 
 #define ProductName "ARDOP TNC"
-#define ProductVersion "1.0.4.1j-BPQ"
+#define ProductVersion "1.0.4.2-ALPHA"
 
 //#define USE_SOUNDMODEM
 
