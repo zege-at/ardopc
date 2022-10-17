@@ -13,4 +13,3 @@ Package: ardopc
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: ardopc software TNC
-ardopc is a command line program. It supports two host interfaces, TCP (using two TCP ports) or Serial using a Virtual COM port to link to the host. The serial interface can emulate an SCS Dragon controller, allowing programs that don't support ardop but support the Dragon (such as Winlink Express or Airmail) to use ardop. 
