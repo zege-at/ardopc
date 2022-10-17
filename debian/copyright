@@ -1,0 +1,95 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: ardopc
+Upstream-Contact: John Wiseman
+Source: https://www.cantab.net/users/john.wiseman/Downloads/Beta/TeensyProjects.zip
+
+Files:    .oe5gze/*
+           debian/*
+           .github/workflows/main.yml
+           .gitignore
+           README.md
+           SECURITY.md
+           debian/README.Debian
+           debian/README.source
+           debian/ardopc-docs.docs
+           debian/ardopc.cron.d.ex
+           debian/control
+           debian/postinst.ex
+           debian/postrm.ex
+           debian/preinst.ex
+           debian/prerm.ex
+           debian/rules
+           debian/salsa-ci.yml.ex
+           debian/source/format
+           debian/watch.ex
+           man/meson.build
+           meson.build
+Copyright: 2022 Gerald Zehetner <gerald@oe5gze.radio>
+License: GPL-2+
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <https://www.gnu.org/licenses/>
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".
+
+Files:     src/berlekamp.c
+           src/crcgen.c
+           src/galois.c
+           src/rs.c
+           src/ecc.h
+Copyright: 1991-2009 Henry Minsky (hqm@alum.mit.edu)
+License:   GPL-3.0+
+
+Files:     src/ARQ.c
+           src/BusyDetect.c
+           src/CalcTemplates.c
+           src/DACout.c
+           src/FEC.c
+           src/FFT.c
+           src/HostInterface.c
+           src/KISSModule.c
+           src/LCM1602-IIC.c
+           src/LCM1602-IIC.h
+           src/LinSerial.c
+           src/Modulate.c
+           src/SCSHostInterface.c
+           src/SoundInput.c
+           src/TCPHostInterface.c
+           src/UZ7HOFEC.c
+           src/WinSerial.c
+           src/afskModule.c
+           src/ardopSampleArrays.c
+           src/getopt.c
+           src/getopt.h
+           src/i2cDisplay.c
+           src/libardop.c
+           src/meson.build
+           src/pktARDOP.c
+           src/pktSession.c
+Copyright: 2001-2015 John Wiseman G8BPQ
+License:   GPL-3.0+
+
+Files:     src/ARDOPC.h
+           src/main_linux.c
+           src/main_windows.c
+           src/ARDOPC.c
+           src/main.c
+Copyright: 2001 John Wiseman G8BPQ
+           2022 Gerald Zehetner OE5GZE
+License:   GPL-3.0+
+
+Files:     man/ardopc.1
+Copyright: 2001-2022 John Wiseman G8BPQ
+           2022 Gerald Zehetner OE5GZE 
+License:   GPL-3.0+
+
