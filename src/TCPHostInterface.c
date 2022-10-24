@@ -1,3 +1,24 @@
+/* TCPHostInterface.c
+ *
+ * Copyright 2001-2022 John Wiseman G8BPQ
+ *
+ *
+ * This file is part of ARDOPC.
+ *
+ * ARDOPC is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARDOPC is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 // ARDOP TNC Host Interface using TCP
 //
 
@@ -296,9 +317,9 @@ void ProcessReceivedControl()
 
 	//	Commands start with c: and end with CR.
 	//	Data starts with d: and has a length field
-	//	“d:ARQ|FEC|ERR|, 2 byte count (Hex 0001 – FFFF), binary data, +2 Byte CRC”
+	//	ï¿½d:ARQ|FEC|ERR|, 2 byte count (Hex 0001 ï¿½ FFFF), binary data, +2 Byte CRCï¿½
 
-	//	As far as I can see, shortest frame is “c:RDY<Cr> + 2 byte CRC” = 8 bytes
+	//	As far as I can see, shortest frame is ï¿½c:RDY<Cr> + 2 byte CRCï¿½ = 8 bytes
 
 	//	I don't think it likely we will get packets this long, but be aware...
 
@@ -404,9 +425,9 @@ void ProcessReceivedData()
 
 	//	Commands start with c: and end with CR.
 	//	Data starts with d: and has a length field
-	//	“d:ARQ|FEC|ERR|, 2 byte count (Hex 0001 – FFFF), binary data, +2 Byte CRC”
+	//	ï¿½d:ARQ|FEC|ERR|, 2 byte count (Hex 0001 ï¿½ FFFF), binary data, +2 Byte CRCï¿½
 
-	//	As far as I can see, shortest frame is “c:RDY<Cr> + 2 byte CRC” = 8 bytes
+	//	As far as I can see, shortest frame is ï¿½c:RDY<Cr> + 2 byte CRCï¿½ = 8 bytes
 
 	//	I don't think it likely we will get packets this long, but be aware...
 

@@ -1,3 +1,24 @@
+/* i2cDisplay.c
+ *
+ * Copyright 2001-2022 John Wiseman G8BPQ
+ *
+ *
+ * This file is part of ARDOPC.
+ *
+ * ARDOPC is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARDOPC is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "ARDOPC.h"
 
 // COMMANDOS
@@ -143,7 +164,7 @@ int initialize(const char *i2c_device, int addr)
 	command(i2cfile, LCD_DISPLAYCONTROL | LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF);
 	clear(i2cfile);
 
-	// Se inicializa la dirección del texto por defecto
+	// Se inicializa la direcciï¿½n del texto por defecto
 	command(i2cfile, LCD_ENTRYMODESET | LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT);
 
 	// Cursor al inicio
